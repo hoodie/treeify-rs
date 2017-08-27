@@ -1,0 +1,8 @@
+[package]
+authors = ["Hendrik Sollich <hendrik@hoodie.de>"]
+name = "yaml-tree"
+version = "0.1.0"
+
+[dependencies]
+treeline = "0.1.0"
+yaml-rust = "0.3.5"

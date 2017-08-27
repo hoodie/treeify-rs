@@ -1,0 +1,7 @@
+hello: world
+test:
+  - 1
+  - 2
+  - 3
+  - four: five
+    [1,2]: 3,4
