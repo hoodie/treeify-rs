@@ -79,10 +79,10 @@ fn main() {
         let docs = yaml::YamlLoader::load_from_str(&s).unwrap();
         let doc = docs.get(0).unwrap().to_owned();
 
-        println!("{}", s);
+        //println!("{}", s);
 
         let tree: Tree<String> = KVPair(
-            Yaml::String(String::from("root")),
+            Yaml::String(String::from(arg1)),
             doc).into();
         println!("{}", tree);
 
