@@ -7,8 +7,9 @@ use treeline::Tree;
 
 use std::env;
 use std::fmt;
-use std::io::prelude::*;
 use std::fs::File;
+use std::io::{self, Read};
+
 
 #[derive(Debug)]
 struct YamlTree(yaml::Yaml);
@@ -71,22 +72,34 @@ impl Into<Tree<String>> for YamlTree {
     }
 }
 
+
+fn std_in() -> io::Result<String> {
+    let mut buffer = String::new();
+    io::stdin().read_to_string(&mut buffer)?;
+    Ok(buffer)
+}
+
 fn main() {
     if let Some(arg1) = env::args().nth(1){
-        let mut f = File::open(&arg1).unwrap();
-        let mut s = String::new();
-        f.read_to_string(&mut s).unwrap();
-        let docs = yaml::YamlLoader::load_from_str(&s).unwrap();
+        let mut file = File::open(&arg1).unwrap();
+        let mut content = String::new();
+        file.read_to_string(&mut content).unwrap();
+        let docs = yaml::YamlLoader::load_from_str(&content).unwrap();
         let doc = docs.get(0).unwrap().to_owned();
-
-        //println!("{}", s);
 
         let tree: Tree<String> = KVPair(
             Yaml::String(String::from(arg1)),
             doc).into();
         println!("{}", tree);
 
+    } else if let Ok(content) = std_in() {
+        let docs = yaml::YamlLoader::load_from_str(&content).unwrap();
+        let doc = docs.get(0).unwrap().to_owned();
 
+        let tree: Tree<String> = KVPair(
+            Yaml::String(String::from("-")),
+            doc).into();
+        println!("{}", tree);
     } else {
         println!("no arg provided!");
     }
