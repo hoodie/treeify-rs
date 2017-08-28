@@ -1,6 +1,6 @@
 [package]
 authors = ["Hendrik Sollich <hendrik@hoodie.de>"]
-name = "yaml-tree"
+name = "treeify"
 version = "0.1.0"
 
 [dependencies]
