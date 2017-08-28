@@ -38,7 +38,9 @@ impl Into<Tree<String>> for KVPair {
     fn into(self) -> Tree<String> {
         if let KVPair(Yaml::String(key), Yaml::Array(values)) = self {
             Tree::new(key, values.into_iter().map(|yval| YamlTree(yval).into()).collect())
-        } else {
+        } else if let KVPair(Yaml::String(key), Yaml::Hash(hash)) = self {
+            Tree::new(key, hash.into_iter().map(|(k,v)| KVPair(k,v).into()).collect())
+        } else{
             Tree::new(YamlTree(self.0).to_string(), vec![ YamlTree(self.1).into() ])
         }
     }
